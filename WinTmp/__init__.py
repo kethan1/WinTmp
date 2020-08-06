@@ -70,15 +70,21 @@ def tmps():
     return temps
 
 
-def gpu_temp():
+def GPU_Temp():
 
     if nvidia:
         things = [i for i in list(os.popen('nvidia-smi').readlines())[8].split(' ') if i != '' and i != '|' and i != '/' and i != '!\n']
         return things[1]
     else:
-        return tmps()['Gpu']
+        try:
+            return tmps()['Gpu']
+        except:
+            return ''
 
 
-def cpu_temps():
-    
-    return tmps()['CPU']
+def CPU_Temp():
+
+    try:
+        return tmps()['CPU']
+    except:
+        return ''

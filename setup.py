@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="WinTmp",
-    version="0.0.2",
+    version="0.0.3",
     author="Kethan",
     author_email="kethan@vegunta.com",
     description="A package used to get temperature on Windows Machines. ",
