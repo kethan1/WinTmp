@@ -48,7 +48,7 @@ for i in fetch_data(init_OHM()):
 try:
     tmp123 = nvidia
 except:
-    nvidia = True
+    nvidia = False
 
 def tmps():
 

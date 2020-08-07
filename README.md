@@ -4,6 +4,20 @@ This is a python module used to getting temperatures of the cpu and gpu in windo
 
 Remember run as admin!
 
+Install:
+`pip install WinTmp`
+
+In admin command prompt type `python`.
+Demo:
+
+```
+>>>import WinTmp
+
+>>>print(WinTmp.CPU_Temp())
+
+>>>print(WinTmp.GPU_Temp())
+```
+
 Pypi page here: https://pypi.org/project/WinTmp/
 
 Github Page Here: https://github.com/kethan1/WinTmp/
