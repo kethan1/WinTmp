@@ -2,3 +2,4 @@
 /dist/*
 /WinTmp.egg-info/*
 /WinTmp/__pycache__/*
+.DS_Store
