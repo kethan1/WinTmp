@@ -10,7 +10,7 @@ Install:
 In admin command prompt type `python`.
 Demo:
 
-```
+```python
 >>>import WinTmp
 
 >>>print(WinTmp.CPU_Temp())
