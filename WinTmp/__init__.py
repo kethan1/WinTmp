@@ -10,7 +10,7 @@ OHM_sensortypes = [
 
 
 def init_OHM():
-    clr.AddReference('C:/Users/ketha/Downloads/PyTherm-master/OpenHardwareMonitorLib.dll')
+    clr.AddReference(f'{os.path.dirname(__file__)}/OpenHardwareMonitorLib.dll')
     from OpenHardwareMonitor import Hardware
     hw = Hardware.Computer()
     hw.MainboardEnabled, hw.CPUEnabled, hw.RAMEnabled, hw.GPUEnabled, hw.HDDEnabled = True, True, True, True, True
