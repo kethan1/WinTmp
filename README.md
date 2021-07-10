@@ -11,13 +11,13 @@ In admin command prompt type `python`.
 Demo:
 
 ```python
->>>import WinTmp
+>>> import WinTmp
 
->>>print(WinTmp.CPU_Temp())
+>>> print(WinTmp.CPU_Temp())
 
->>>print(WinTmp.GPU_Temp())
+>>> print(WinTmp.GPU_Temp())
 ```
 
-Pypi page here: https://pypi.org/project/WinTmp/
+PyPi page here: https://pypi.org/project/WinTmp/
 
 Github Page Here: https://github.com/kethan1/WinTmp/
