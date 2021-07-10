@@ -46,7 +46,7 @@ def parse_sensor(snsr):
     if snsr.Value is not None:
         if snsr.SensorType == OHM_sensortypes.index("Temperature"):
             HwType = OHM_hwtypes[snsr.Hardware.HardwareType]
-            return {"Type": HwType, "Name": snsr.Hardware.Name, "Sensor": snsr.Name, "Reading": u"%s\xb0C" % snsr.Value }
+            return {"Type": HwType, "Name": snsr.Hardware.Name, "Sensor": snsr.Name, "Reading": u"%s\xb0C" % snsr.Value}
 
 
 nvidia = False
@@ -75,7 +75,7 @@ def get_temperatures():
 
 def GPU_Temp(average=True):
     if nvidia:
-        return list(filter(lambda x: 'GPU Current Temp' in x, subprocess.run("nvidia-smi -q -d temperature", shell=True, capture_output=True).stdout.decode().replace("\r\n", "\n").split("\n")))[0].split(":")[1].strip()
+        return float(list(filter(lambda x: 'GPU Current Temp' in x, subprocess.run("nvidia-smi -q -d temperature", shell=True, capture_output=True).stdout.decode().replace("\r\n", "\n").split("\n")))[0].split(":")[1].strip().strip(" C"))
     else:
         temperatures = get_temperatures()
         if "GPU" in temperatures:
