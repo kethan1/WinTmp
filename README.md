@@ -18,6 +18,6 @@ Demo:
 >>> print(WinTmp.GPU_Temp())
 ```
 
-PyPi page here: https://pypi.org/project/WinTmp/
+PyPI page here: https://pypi.org/project/WinTmp/
 
 Github Page Here: https://github.com/kethan1/WinTmp/
