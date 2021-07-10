@@ -16,7 +16,7 @@ OHM_sensortypes = [
 def init_OHM():
     path = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
-        "OpenHardwareMoniterLib.dll"
+        "OpenHardwareMonitorLib.dll"
     )
     clr.AddReference(path)
     from OpenHardwareMonitor import Hardware

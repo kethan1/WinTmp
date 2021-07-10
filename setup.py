@@ -15,7 +15,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=['pythonnet', 'wmi'],
     include_package_data=True,
-    package_data={"OpenHardwareMoniterLib": ['OpenHardwareMoniterLib.dll']},
+    package_data={"OpenHardwareMonitorLib": ['OpenHardwareMonitorLib.dll']},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
