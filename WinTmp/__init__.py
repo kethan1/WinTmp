@@ -55,21 +55,21 @@ for i in fetch_data(init_OHM()):
         nvidia = True
 
 
-def tmps():
-    temps = {}
+def get_temperatures():
+    temps = {"CPU": {}, "GPU": {}}
 
     data = fetch_data(init_OHM())
 
-    for each in data:
-        if each['Type'] == 'CPU':
-            temps['CPU'][each['Sensor']] = each['Reading']
-        elif 'Gpu' in each['Type']:
+    for sensor_reading in data:
+        if sensor_reading['Type'] == 'CPU':
+            temps['CPU'][sensor_reading['Sensor']] = sensor_reading['Reading']
+        elif 'Gpu' in sensor_reading['Type']:
             if not nvidia:
                 tmp_avg = 0
-                for each in temps['Gpu']:
-                    tmp_avg += int(each)
-                tmp_avg += int(each['Reading'])
-                temps['Gpu'] = tmp_avg
+                for gpu_sensor_reading in temps['Gpu']:
+                    tmp_avg += int(gpu_sensor_reading["Reading"])
+                # tmp_avg += int(gpu_sensor_reading['Reading'])
+                temps['GPU'] = tmp_avg
 
     return temps
 
@@ -84,13 +84,13 @@ def GPU_Temp():
         ][1]
     else:
         try:
-            return tmps()['Gpu']
+            return get_temperatures()['GPU']
         except KeyError:
             pass
 
 
 def CPU_Temp():
     try:
-        return tmps()['CPU']
+        return get_temperatures()['CPU']
     except KeyError:
         pass
