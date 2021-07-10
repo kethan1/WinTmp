@@ -80,15 +80,15 @@ def GPU_Temp(average=True):
         temperatures = get_temperatures()
         if "GPU" in temperatures:
             if average:
-                return sum(temperature.strip("°C") for temperature in get_temperatures()["GPU"]) / len(get_temperatures()["GPU"])
+                return sum(float(temperature.strip("°C")) for temperature in get_temperatures()["GPU"]) / len(get_temperatures()["GPU"])
             else:
-                return [temperature.strip("°C") for temperature in get_temperatures()["GPU"]]
+                return [float(temperature.strip("°C")) for temperature in get_temperatures()["GPU"]]
 
 
 def CPU_Temp(average=True):
     temperatures = get_temperatures()
     if get_temperatures()["CPU"]:  # Makes sure the CPU key is not an empty dictionary
         if average:
-            return sum(int(each_cpu_temp.strip("°C")) for each_cpu_temp in temperatures["CPU"].values()) / len(temperatures["CPU"].values())
+            return sum(float(each_cpu_temp.strip("°C")) for each_cpu_temp in temperatures["CPU"].values()) / len(temperatures["CPU"].values())
         else:
-            return {key: int(value.strip("°C")) for key, value in temperatures["CPU"].items()}
+            return {key: float(value.strip("°C")) for key, value in temperatures["CPU"].items()}
