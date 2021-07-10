@@ -1,5 +1,6 @@
 import clr
 import os
+import sys
 
 # List for hardware types and sensor types that our DLL can open
 OHM_hwtypes = [
@@ -13,7 +14,11 @@ OHM_sensortypes = [
 
 
 def init_OHM():
-    clr.AddReference(f'{os.path.dirname(__file__)}/OpenHardwareMonitorLib.dll')
+    path = os.path.join(
+        os.path.dirname(sys.modules["OpenHardwareMoniterLib"].__file__),
+        "OpenHardwareMoniterLib.dll"
+    )
+    clr.AddReference(path)
     from OpenHardwareMonitor import Hardware
     hw = Hardware.Computer()
     hw.MainboardEnabled, hw.CPUEnabled, hw.RAMEnabled, hw.GPUEnabled, hw.HDDEnabled = True, True, True, True, True

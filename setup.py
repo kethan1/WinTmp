@@ -9,11 +9,12 @@ setuptools.setup(
     version="0.0.6",
     author="Kethan",
     author_email="kethan@vegunta.com",
-    description="A package used to get temperature on Windows Machines. ",
+    description="A package used to get temperature on Windows Machines.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
     install_requires=['pythonnet', 'wmi'],
+    package_data={"OpenHardwareMoniterLib": ['OpenHardwareMoniterLib.dll']},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
