@@ -56,7 +56,7 @@ for sensor in fetch_data(init_OHM()):
 
 
 def get_temperatures():
-    temps = {"CPU": {}, "GPU": {}}
+    temps = {"CPU": {}}
 
     data = fetch_data(init_OHM())
 
@@ -65,28 +65,30 @@ def get_temperatures():
             temps["CPU"][sensor_reading["Sensor"]] = sensor_reading["Reading"]
         elif "Gpu" in sensor_reading["Type"]:
             if not nvidia:
-                tmp_avg = 0
+                gpu_temperatues = []
                 for gpu_sensor_reading in temps["Gpu"]:
-                    tmp_avg += int(gpu_sensor_reading["Reading"])
-                temps["GPU"] = tmp_avg
+                    gpu_temperatues.append(int(gpu_sensor_reading["Reading"]))
+                temps["GPU"] = gpu_temperatues
 
     return temps
 
 
-def GPU_Temp():
+def GPU_Temp(average=True):
     if nvidia:
         return list(filter(lambda x: 'GPU Current Temp' in x, subprocess.run("nvidia-smi -q -d temperature", shell=True, capture_output=True).stdout.decode().replace("\r\n", "\n").split("\n")))[0].split(":")[1].strip()
     else:
-        try:
-            return get_temperatures()["GPU"]
-        except KeyError:
-            pass
+        temperatures = get_temperatures()
+        if "GPU" in temperatures:
+            if average:
+                return sum(temperature.strip("°C") for temperature in get_temperatures()["GPU"]) / len(get_temperatures()["GPU"])
+            else:
+                return [temperature.strip("°C") for temperature in get_temperatures()["GPU"]]
 
 
 def CPU_Temp(average=True):
     temperatures = get_temperatures()
     if get_temperatures()["CPU"]:  # Makes sure the CPU key is not an empty dictionary
         if average:
-            return sum(temperatures["CPU"].values()) / len(temperatures["CPU"].values())
+            return sum(int(each_cpu_temp.strip("°C")) for each_cpu_temp in temperatures["CPU"].values()) / len(temperatures["CPU"].values())
         else:
-            return temperatures["CPU"]
+            return {key: int(value.strip("°C")) for key, value in temperatures["CPU"].items()}
