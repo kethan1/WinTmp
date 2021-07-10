@@ -2,9 +2,13 @@ import clr
 import os
 
 # List for hardware types and sensor types that our DLL can open
-OHM_hwtypes = ['Mainboard', 'SuperIO', 'CPU', 'RAM', 'GpuNvidia', 'GpuAti', 'TBalancer', 'Heatmaster', 'SSD']
+OHM_hwtypes = [
+    'Mainboard', 'SuperIO', 'CPU', 'RAM', 'GpuNvidia',
+    'GpuAti', 'TBalancer', 'Heatmaster', 'SSD'
+]
 OHM_sensortypes = [
- 'Voltage', 'Clock', 'Temperature', 'Load', 'Fan', 'Flow', 'Control', 'Level', 'Factor', 'Power', 'Data', 'SmallData'
+    'Voltage', 'Clock', 'Temperature', 'Load', 'Fan', 'Flow',
+    'Control', 'Level', 'Factor', 'Power', 'Data', 'SmallData'
 ]
 
 
@@ -77,11 +81,11 @@ def GPU_Temp():
         try:
             return tmps()['Gpu']
         except KeyError:
-            return
+            pass
 
 
 def CPU_Temp():
     try:
         return tmps()['CPU']
     except KeyError:
-        return
+        pass
