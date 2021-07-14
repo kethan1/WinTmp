@@ -12,10 +12,11 @@ Demo:
 
 ```python
 >>> import WinTmp
-
 >>> print(WinTmp.CPU_Temp())
-
+38.0
 >>> print(WinTmp.GPU_Temp())
+35.0
+>>>
 ```
 
 PyPI page here: https://pypi.org/project/WinTmp/
