@@ -12,10 +12,10 @@ setuptools.setup(
     description="A package used to get temperature on Windows Machines.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    packages=setuptools.find_packages(),
     install_requires=['pythonnet', 'wmi'],
-    include_package_data=True,
-    package_data={"OpenHardwareMonitorLib": ['OpenHardwareMonitorLib.dll']},
+    packages=["WinTmp"],
+    package_dir={'WinTmp': 'WinTmp'},
+    package_data={'WinTmp': ["*.dll"]},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
