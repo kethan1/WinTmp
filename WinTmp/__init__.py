@@ -13,32 +13,29 @@ OHM_sensortypes = [
 ]
 
 
-def init_OHM():
-    path = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)),
-        "OpenHardwareMonitorLib.dll"
-    )
-    clr.AddReference(path)
-    from OpenHardwareMonitor import Hardware
-    hw = Hardware.Computer()
-    hw.MainboardEnabled, hw.CPUEnabled, hw.RAMEnabled, hw.GPUEnabled, hw.HDDEnabled = True, True, True, True, True
-    hw.Open()
-    return hw
+clr.AddReference(os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    "OpenHardwareMonitorLib.dll"
+))
+from OpenHardwareMonitor import Hardware
+hw = Hardware.Computer()
+hw.MainboardEnabled, hw.CPUEnabled, hw.RAMEnabled, hw.GPUEnabled, hw.HDDEnabled = True, True, True, True, True
+hw.Open()
 
 
-def fetch_data(handle):
+def fetch_data():
     out = []
-    for i in handle.Hardware:
+    for i in hw.Hardware:
         i.Update()
         for sensor in i.Sensors:
-            thing = parse_sensor(sensor)
-            if thing is not None:
-                out.append(thing)
+            sensor_output = parse_sensor(sensor)
+            if sensor_output is not None:
+                out.append(sensor_output)
         for j in i.SubHardware:
             j.Update()
             for subsensor in j.Sensors:
-                thing = parse_sensor(subsensor)
-                out.append(thing)
+                sensor_output = parse_sensor(subsensor)
+                out.append(sensor_output)
     return out
 
 
@@ -50,7 +47,7 @@ def parse_sensor(snsr):
 
 
 nvidia = False
-for sensor in fetch_data(init_OHM()):
+for sensor in fetch_data():
     if sensor["Type"] == "GpuNvidia":
         nvidia = True
 
@@ -58,7 +55,7 @@ for sensor in fetch_data(init_OHM()):
 def get_temperatures():
     temps = {"CPU": {}}
 
-    data = fetch_data(init_OHM())
+    data = fetch_data()
 
     for sensor_reading in data:
         if sensor_reading["Type"] == "CPU":
@@ -87,7 +84,7 @@ def GPU_Temp(average=True):
 
 def CPU_Temp(average=True):
     temperatures = get_temperatures()
-    if get_temperatures()["CPU"]:  # Makes sure the CPU key is not an empty dictionary
+    if temperatures["CPU"]:  # Makes sure the CPU key is not an empty dictionary
         if average:
             return sum(float(each_cpu_temp.strip("°C")) for each_cpu_temp in temperatures["CPU"].values()) / len(temperatures["CPU"].values())
         else:
