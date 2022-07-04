@@ -4,52 +4,78 @@ import subprocess
 
 # List for hardware types and sensor types that our DLL can open
 OHM_hwtypes = [
-    "Mainboard", "SuperIO", "CPU", "RAM", "GpuNvidia",
-    "GpuAti", "TBalancer", "Heatmaster", "SSD"
+    "Mainboard",
+    "SuperIO",
+    "CPU",
+    "RAM",
+    "GpuNvidia",
+    "GpuAti",
+    "TBalancer",
+    "Heatmaster",
+    "SSD",
 ]
 OHM_sensortypes = [
-    "Voltage", "Clock", "Temperature", "Load", "Fan", "Flow",
-    "Control", "Level", "Factor", "Power", "Data", "SmallData"
+    "Voltage",
+    "Clock",
+    "Temperature",
+    "Load",
+    "Fan",
+    "Flow",
+    "Control",
+    "Level",
+    "Factor",
+    "Power",
+    "Data",
+    "SmallData",
 ]
 
 
-clr.AddReference(os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    "OpenHardwareMonitorLib.dll"
-))
+clr.AddReference(
+    os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "OpenHardwareMonitorLib.dll"
+    )
+)
 from OpenHardwareMonitor import Hardware
+
 hw = Hardware.Computer()
-hw.MainboardEnabled, hw.CPUEnabled, hw.RAMEnabled, hw.GPUEnabled, hw.HDDEnabled = True, True, True, True, True
+hw.MainboardEnabled, hw.CPUEnabled, hw.RAMEnabled, hw.GPUEnabled, hw.HDDEnabled = (
+    True,
+    True,
+    True,
+    True,
+    True,
+)
 hw.Open()
 
 
 def fetch_data():
-    out = []
+    temps = []
     for i in hw.Hardware:
         i.Update()
         for sensor in i.Sensors:
             sensor_output = parse_sensor(sensor)
             if sensor_output is not None:
-                out.append(sensor_output)
+                temps.append(sensor_output)
         for j in i.SubHardware:
             j.Update()
-            for subsensor in j.Sensors:
-                sensor_output = parse_sensor(subsensor)
-                out.append(sensor_output)
-    return out
+            temps.extend(parse_sensor(subsensor) for subsensor in j.Sensors)
+    return temps
 
 
 def parse_sensor(snsr):
-    if snsr.Value is not None:
-        if snsr.SensorType == OHM_sensortypes.index("Temperature"):
-            HwType = OHM_hwtypes[snsr.Hardware.HardwareType]
-            return {"Type": HwType, "Name": snsr.Hardware.Name, "Sensor": snsr.Name, "Reading": u"%s\xb0C" % snsr.Value}
+    if snsr.Value is not None and snsr.SensorType == OHM_sensortypes.index(
+        "Temperature"
+    ):
+        HwType = OHM_hwtypes[snsr.Hardware.HardwareType]
+        return {
+            "Type": HwType,
+            "Name": snsr.Hardware.Name,
+            "Sensor": snsr.Name,
+            "Reading": u"%s\xb0C" % snsr.Value,
+        }
 
 
-nvidia = False
-for sensor in fetch_data():
-    if sensor["Type"] == "GpuNvidia":
-        nvidia = True
+nvidia = any(sensor["Type"] == "GpuNvidia" for sensor in fetch_data())
 
 
 def get_temperatures():
@@ -62,9 +88,10 @@ def get_temperatures():
             temps["CPU"][sensor_reading["Sensor"]] = sensor_reading["Reading"]
         elif "Gpu" in sensor_reading["Type"]:
             if not nvidia:
-                gpu_temperatues = []
-                for gpu_sensor_reading in temps["Gpu"]:
-                    gpu_temperatues.append(int(gpu_sensor_reading["Reading"]))
+                gpu_temperatues = [
+                    int(gpu_sensor_reading["Reading"])
+                    for gpu_sensor_reading in temps["Gpu"]
+                ]
                 temps["GPU"] = gpu_temperatues
 
     return temps
@@ -72,20 +99,33 @@ def get_temperatures():
 
 def GPU_Temp(average=True):
     if nvidia:
-        return float(list(filter(lambda x: 'GPU Current Temp' in x, subprocess.run("nvidia-smi -q -d temperature", shell=True, capture_output=True).stdout.decode().replace("\r\n", "\n").split("\n")))[0].split(":")[1].strip().strip(" C"))
-    else:
-        temperatures = get_temperatures()
-        if "GPU" in temperatures:
-            if average:
-                return sum(float(temperature.strip("°C")) for temperature in get_temperatures()["GPU"]) / len(get_temperatures()["GPU"])
-            else:
-                return [float(temperature.strip("°C")) for temperature in get_temperatures()["GPU"]]
+        temp = float(
+            subprocess.run(
+                "nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader", shell=True, capture_output=True
+            )
+            .stdout.decode()
+        )
+        return temp if average else [temp]
+    temperatures = get_temperatures()
+    if "GPU" in temperatures:
+        return (
+            sum(float(temperature.strip("°C")) for temperature in temperatures["GPU"])
+            / len(temperatures["GPU"])
+            if average
+            else [float(temperature.strip("°C")) for temperature in temperatures["GPU"]]
+        )
 
 
 def CPU_Temp(average=True):
     temperatures = get_temperatures()
     if temperatures["CPU"]:  # Makes sure the CPU key is not an empty dictionary
         if average:
-            return sum(float(each_cpu_temp.strip("°C")) for each_cpu_temp in temperatures["CPU"].values()) / len(temperatures["CPU"].values())
+            return sum(
+                float(each_cpu_temp.strip("°C"))
+                for each_cpu_temp in temperatures["CPU"].values()
+            ) / len(temperatures["CPU"].values())
         else:
-            return {key: float(value.strip("°C")) for key, value in temperatures["CPU"].items()}
+            return {
+                key: float(value.strip("°C"))
+                for key, value in temperatures["CPU"].items()
+            }
