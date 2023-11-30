@@ -1,8 +1,8 @@
 # WinTmp
 
-This is a python module used to getting temperatures of the cpu and gpu in windows. If this module doesn't work, make sure to open an issue!
+This is a Python module used to getting temperatures of the CPU and GPU in windows. If this module doesn't work, please open an issue!
 
-This module also need to be run as Administrator.
+This module needs to be run as administrator.
 
 Install:
 `pip install WinTmp`
@@ -19,6 +19,6 @@ Demo:
 >>>
 ```
 
-PyPI page here: https://pypi.org/project/WinTmp/
+PyPI: https://pypi.org/project/WinTmp/
 
-Github Page Here: https://github.com/kethan1/WinTmp/
+Github: https://github.com/kethan1/WinTmp/
