@@ -1,5 +1,3 @@
-# This workflow will upload a Python Package using Twine when a release is created
-
 name: Build and Publish Python Package to PyPI
 
 on:
@@ -8,23 +6,17 @@ on:
 
 jobs:
   build:
-    name: Build Package
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python
+    - name: Setup Python
       uses: actions/setup-python@v4
       with:
         python-version: "3.x"
-    - name: Install pypa/build
-      run: >-
-        python3 -m
-        pip install
-        build
-        --user
-    - name: Build a binary wheel and a source tarball
-      run: python3 -m build
+    - name: Install pypa/build and Build a binary wheel and a source tarball
+      run: |
+        python3 -m pip install build --user
+        python3 -m build
     - name: Store the distribution packages
       uses: actions/upload-artifact@v3
       with:
