@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=45", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "WinTmp"
+authors = [
+    {name = "Kethan Vegunta", email = "kethan@vegunta.com"},
+]
+description = "A package used to get temperature on Windows Machines."
+readme = "README.md"
+requires-python = ">=3.6"
+keywords = ["windows", "temperature", "cpu", "gpu", "amd", "intel", "nvidia"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+]
+dynamic = ["dependencies", "version"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
