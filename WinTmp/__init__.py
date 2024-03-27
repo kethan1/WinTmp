@@ -1,6 +1,9 @@
 import clr
 import os
 
+if os.path.exists("_version.py"):
+    from _version import __version__
+
 clr.AddReference(
     os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "LibreHardwareMonitorLib.dll"
