@@ -1,11 +1,17 @@
 # WinTmp
 
-This is a Python module used to getting temperatures of the CPU and GPU in windows. If this module doesn't work, please open an issue!
+WinTmp, short for Windows Temperature, is a Python module that enables easy access to the temperatures of the CPU and GPU in Windows. 
 
-This module needs to be run as administrator.
+This module requires administrator privilages to access the sensor data. Please ensure that your code is run with admin privilages.
 
-Install:
+Install using `pip`:
 `pip install WinTmp`
+
+WinTmp exposes two functions:
+ - `CPU_Temp()`
+   - Returns the temperature of the CPU as a float.
+ - `GPU_Temp()
+   - Returns the temperature of the first GPU found as a float. 
 
 In admin command prompt type `python`.
 Demo:
@@ -22,3 +28,5 @@ Demo:
 PyPI: https://pypi.org/project/WinTmp/
 
 Github: https://github.com/kethan1/WinTmp/
+
+If you experience any issues, bug, or shortcomings with this module, please don't hesitate to open an issue!
