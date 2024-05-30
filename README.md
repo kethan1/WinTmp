@@ -10,7 +10,7 @@ Install using `pip`:
 WinTmp exposes two functions:
  - `CPU_Temp()`
    - Returns the temperature of the CPU as a float.
- - `GPU_Temp()
+ - `GPU_Temp()`
    - Returns the temperature of the first GPU found as a float. 
 
 In admin command prompt type `python`.
@@ -29,4 +29,4 @@ PyPI: https://pypi.org/project/WinTmp/
 
 Github: https://github.com/kethan1/WinTmp/
 
-If you experience any issues, bug, or shortcomings with this module, please don't hesitate to open an issue!
+If you experience any issues, bugs, or shortcomings with this module, please don't hesitate to open an issue!
