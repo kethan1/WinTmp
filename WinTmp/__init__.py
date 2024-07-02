@@ -1,8 +1,8 @@
 import clr
 import os
 
-if os.path.exists("_version.py"):
-    from _version import __version__
+if os.path.join(os.path.abspath(__file__), os.path.exists("_version.py")):
+    from WinTmp._version import __version__
 
 clr.AddReference(
     os.path.join(
