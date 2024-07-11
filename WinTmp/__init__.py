@@ -1,7 +1,8 @@
 import clr
 import os
 
-
+if os.path.join(os.path.abspath(__file__), os.path.exists("_version.py")):
+    from WinTmp._version import __version__
 
 clr.AddReference(
     os.path.join(
@@ -59,7 +60,7 @@ def CPU_Temps():
 
 
 
-def all_temps():
+def _all_temps():
     temps = {}
     for h in hw.Hardware:
         h.Update()
@@ -71,9 +72,9 @@ def all_temps():
                 else:
                     temps[key] = [sensor.Value]
     return temps
-    
-    
-def all_sensor_data():
+
+
+def _all_sensor_data():
     temps = {}
     for h in hw.Hardware:
         h.Update()
