@@ -52,6 +52,5 @@ def CPU_Temps():
         if h.HardwareType == Hardware.HardwareType.Cpu:
             for sensor in h.Sensors:
                 if sensor.SensorType == Hardware.SensorType.Temperature:
-                    return sensor.Value
                     temps.append(sensor.Value)
     return temps
