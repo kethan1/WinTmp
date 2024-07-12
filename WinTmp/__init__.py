@@ -1,8 +1,10 @@
 import clr
 import os
 
-if os.path.join(os.path.abspath(__file__), os.path.exists("_version.py")):
+if os.path.exists(os.path.join(os.path.abspath(__file__), "_version.py")):
     from WinTmp._version import __version__
+else:
+    __version__ = "0.0.0"
 
 clr.AddReference(
     os.path.join(
@@ -12,19 +14,30 @@ clr.AddReference(
 from LibreHardwareMonitor import Hardware
 
 hw = Hardware.Computer()
-hw.IsCpuEnabled = hw.IsGpuEnabled = hw.IsMemoryEnabled = \
-    hw.IsMotherboardEnabled = hw.IsStorageEnabled = True
+hw.IsCpuEnabled = hw.IsGpuEnabled = hw.IsMemoryEnabled = hw.IsMotherboardEnabled = (
+    hw.IsStorageEnabled
+) = True
 hw.Open()
+
+GPU_SENSORS = (
+    Hardware.HardwareType.GpuNvidia,
+    Hardware.HardwareType.GpuAmd,
+    Hardware.HardwareType.GpuIntel,
+)
 
 
 def GPU_Temp():
     for h in hw.Hardware:
         h.Update()
 
-        if h.HardwareType in (Hardware.HardwareType.GpuNvidia, Hardware.HardwareType.GpuAmd, Hardware.HardwareType.GpuIntel):
+        if h.HardwareType in GPU_SENSORS:
             for sensor in h.Sensors:
-                if sensor.SensorType == Hardware.SensorType.Temperature and "GPU Core" in sensor.Name:
+                if (
+                    sensor.SensorType == Hardware.SensorType.Temperature
+                    and "GPU Core" in sensor.Name
+                ):
                     return sensor.Value
+
 
 def CPU_Temp():
     for h in hw.Hardware:
@@ -41,11 +54,15 @@ def GPU_Temps():
     for h in hw.Hardware:
         h.Update()
 
-        if h.HardwareType in (Hardware.HardwareType.GpuNvidia, Hardware.HardwareType.GpuAmd, Hardware.HardwareType.GpuIntel):
+        if h.HardwareType in GPU_SENSORS:
             for sensor in h.Sensors:
-                if sensor.SensorType == Hardware.SensorType.Temperature and "GPU Core" in sensor.Name:
+                if (
+                    sensor.SensorType == Hardware.SensorType.Temperature
+                    and "GPU Core" in sensor.Name
+                ):
                     temps.append(sensor.Value)
     return temps
+
 
 def CPU_Temps():
     temps = []
@@ -57,7 +74,6 @@ def CPU_Temps():
                 if sensor.SensorType == Hardware.SensorType.Temperature:
                     temps.append(sensor.Value)
     return temps
-
 
 
 def _all_temps():
