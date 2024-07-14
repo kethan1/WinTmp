@@ -24,10 +24,13 @@ Demo:
 ```python
 >>> import WinTmp
 >>> print(WinTmp.CPU_Temp())
-38.0
+44.00000762939453
 >>> print(WinTmp.GPU_Temp())
-35.0
->>>
+44.12500762939453
+>>> print(WinTmp.CPU_Temps())
+[44.00000762939453]
+>>> print(WinTmp.GPU_Temps())
+[44.62500762939453]
 ```
 
 PyPI: https://pypi.org/project/WinTmp/
