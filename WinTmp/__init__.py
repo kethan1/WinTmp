@@ -4,7 +4,7 @@ import os
 if os.path.exists(os.path.join(os.path.abspath(__file__), "_version.py")):
     from WinTmp._version import __version__
 else:
-    __version__ = "0.0.0"
+    __version__ = "0.0.0-dev"
 
 clr.AddReference(
     os.path.join(
