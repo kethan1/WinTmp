@@ -2,7 +2,7 @@
 
 WinTmp, short for Windows Temperature, is a Python module that provides easy access to the temperatures of the CPU and GPU in Windows.
 
-This module requires administrator privilages to access the sensor data as it uses LibreHardwareMonitor internally. Please ensure that your code is run with admin privilages.
+This module requires administrator privileges to access the sensor data as it uses LibreHardwareMonitor internally. Please ensure that your code is run with admin privileges.
 
 Install using `pip`:
 `pip install WinTmp`
